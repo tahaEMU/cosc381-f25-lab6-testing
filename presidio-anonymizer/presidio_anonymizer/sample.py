@@ -2,10 +2,10 @@ from presidio_anonymizer import AnonymizerEngine
 from presidio_anonymizer.entities import RecognizerResult, OperatorConfig
 
 
-def run_anonymizer(text: str, start: int, end: int, replacement: str = "BIP"):
+def sample_run_anonymizer(text: str, start: int, end: int, replacement: str = "BIP"):
     """
-    Testable wrapper around AnonymizerEngine.anonymize.
-    Returns the engine result object so tests can assert fields.
+    Anonymize text for PERSON entities.
+    This version is testable (takes parameters, returns result).
     """
     engine = AnonymizerEngine()
     result = engine.anonymize(
@@ -18,11 +18,6 @@ def run_anonymizer(text: str, start: int, end: int, replacement: str = "BIP"):
     return result
 
 
-def sample_run_anonymizer():
-    """Keeps the original sample scenario but without input(), for demo/manual run."""
-    return run_anonymizer("My name is Bond.", 11, 15, "BIP")
-
-
 if __name__ == "__main__":
-    res = sample_run_anonymizer()
+    res = sample_run_anonymizer("My name is Bond.", 11, 15, "BIP")
     print(res)
