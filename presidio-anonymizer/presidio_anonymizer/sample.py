@@ -1,32 +1,28 @@
 from presidio_anonymizer import AnonymizerEngine
 from presidio_anonymizer.entities import RecognizerResult, OperatorConfig
 
-def sample_run_anonymizer():
-    # Initialize the engine
+
+def run_anonymizer(text: str, start: int, end: int, replacement: str = "BIP"):
+    """
+    Testable wrapper around AnonymizerEngine.anonymize.
+    Returns the engine result object so tests can assert fields.
+    """
     engine = AnonymizerEngine()
-
-    # Invoke the anonymize function with the text, 
-    # analyzer results (potentially coming from presidio-analyzer) and
-    # Operators to get the anonymization output:
     result = engine.anonymize(
-        text=input("text: "),
-        analyzer_results=[RecognizerResult(entity_type="PERSON", start=int(input("start: ")), end=int(input("end: ")), score=0.8)],
-        operators={"PERSON": OperatorConfig("replace", {"new_value": "BIP"})}
+        text=text,
+        analyzer_results=[
+            RecognizerResult(entity_type="PERSON", start=int(start), end=int(end), score=0.8)
+        ],
+        operators={"PERSON": OperatorConfig("replace", {"new_value": replacement})},
     )
+    return result
 
-    print(result)
 
-    # input should be:
-    # text: My name is Bond.
-    # start: 11
-    # end: 15
-    # 
-    # output should be:
-    # text: My name is BIP.
-    # items:
-    # [
-    #     {'start': 11, 'end': 14, 'entity_type': 'PERSON', 'text': 'BIP', 'operator': 'replace'}
-    # ]
+def sample_run_anonymizer():
+    """Keeps the original sample scenario but without input(), for demo/manual run."""
+    return run_anonymizer("My name is Bond.", 11, 15, "BIP")
 
-if __name__ == "__main__": 
-    sample_run_anonymizer();
+
+if __name__ == "__main__":
+    res = sample_run_anonymizer()
+    print(res)
