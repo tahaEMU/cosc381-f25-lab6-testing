@@ -4,8 +4,9 @@ from presidio_anonymizer.entities import RecognizerResult, OperatorConfig
 
 def sample_run_anonymizer(text: str, start: int, end: int, replacement: str = "BIP"):
     """
-    Anonymize text for PERSON entities.
-    This version is testable (takes parameters, returns result).
+    Anonymize PERSON entities in text.
+    Refactored for testability: takes parameters instead of input(),
+    and returns the result so tests can assert on it.
     """
     engine = AnonymizerEngine()
     result = engine.anonymize(
